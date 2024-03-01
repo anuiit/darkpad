@@ -2,12 +2,8 @@
 
 import { useState } from 'react';
 import { invoke } from '@tauri-apps/api/tauri'
-import { Card, CardHeader } from '@/components/ui/card'
-import { Car } from 'lucide-react';
-import { ModeToggle } from '@/components/ui/toggle-mode';
 import Navbar from '@/components/navbar';
 import { Separator } from '@/components/ui/separator';
-import Sidebar from '@/components/sidebar';
 import TextAreaParent from '@/components/textarea-parent';
 
 export default function Home() {

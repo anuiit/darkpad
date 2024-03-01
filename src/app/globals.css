@@ -74,3 +74,35 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* globals.css */
+
+.scrollbar::-webkit-scrollbar {
+  width: 20px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  opacity: 0;
+}
+ 
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #888; 
+  opacity: 0; /* Make it invisible initially */
+  transition: opacity 0.5s; /* Transition effect */
+}
+
+.scrollbar:hover::-webkit-scrollbar-thumb {
+  opacity: 0.6; /* Make it visible when hovering */
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.scrollbar-thumb-blue::-webkit-scrollbar-thumb {
+  background: #cacaca;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 10px;
+}

@@ -1,39 +1,36 @@
 // navbar 
 
 import React from 'react';
-import { SearchIcon, PlusIcon, SaveIcon, TrashIcon } from './ui/icons';
-import { Save } from 'lucide-react';
+import { Save, Search, Trash, Plus } from 'lucide-react';
 import { Button } from './ui/button';
 import { ModeToggle } from './ui/toggle-mode';
+import SearchBar from './searchbar';
 
 export default function Navbar() {
     return (
-        <div className='flex w-full h-16 items-center'>
-            <div className='flex items-center ml-4'>
+        <div className='flex w-full items-center justify-between h-16 px-4'>
+            <div className='flex items-center'>
                 <ModeToggle />
                 <span className='ml-4'>Home</span>
             </div>
             
-            <div className='flex flex-auto justify-end mr-4'>
+            <div className='flex justify-center w-3/4'>
+                <div className='w-96'>
+                    <SearchBar className=""/>
+                </div>
             </div>
-            <div className='flex justify-between items-center w-56'>
+
+            <div className='flex justify-between items-center w-32'>
                 <Button variant='outline' className="px-2">
-                    <SearchIcon />
+                    <Plus />
                 </Button>
                 <Button variant='outline' className="px-2">
-                    <PlusIcon />
-                    </Button>
+                    <Save />
+                </Button>
                 <Button variant='outline' className="px-2">
-                    <SaveIcon />
-                    </Button>
-                <Button variant='outline' className="mr-4 px-2">
-                    <TrashIcon />
+                    <Trash />
                 </Button>
             </div>
         </div>
     );
-}
-
-function iconsPosition() {
-
 }

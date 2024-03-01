@@ -27,11 +27,7 @@ export default function Home() {
       <Navbar/>
       <Separator/>
       <div className='flex-grow'>
-        <TextAreaParent 
-          value={text} 
-          onChange={(e) => {setText(e.target.value); handleAdjustHeight(e)}}
-          onKeyDown={handleKeyDown} // Corrected to use value
-        />
+        <TextAreaParent />
       </div>
     </div>
   );

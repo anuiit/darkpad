@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AArrowDown, AArrowUp } from 'lucide-react';
-import { Button } from './button';
+import { Button } from './ui/button';
+import StreamedResponseComponent from './streamed-response';
 
 export const FontSizeController = ({ fontSize, setFontSize }) => {
   // Function to increase font size
@@ -28,6 +29,43 @@ export const FontSizeController = ({ fontSize, setFontSize }) => {
 export const ResizableTextarea = React.forwardRef(({ className, fontSize, onChange, ...props }, ref) => {
   // Add state to manage the textarea's value
   const [text, setText] = useState('');
+
+  async function getStreamingResponse(query) {
+    const response = await fetch('http://localhost:8000/ai', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ query })
+    });
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let isFirstChunk = true;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      let chunk = decoder.decode(value);
+      if (isFirstChunk) {
+        chunk = chunk.trimStart(); // Remove leading whitespace from the first chunk
+        isFirstChunk = false;
+      }
+      setText((prevText) => prevText + chunk);
+    }
+  }
+  const handleCommand = async (e) => {
+    if (e.key === 'Enter') {
+      const cursorPosition = e.target.selectionStart;
+      const textBeforeCursor = e.target.value.substring(0, cursorPosition);
+      const lineBeforeCursor = textBeforeCursor.split('\n').pop();
+
+      console.log(cursorPosition, textBeforeCursor, lineBeforeCursor)
+      if (lineBeforeCursor.startsWith('/ai')) {
+        const query = lineBeforeCursor.slice(3).trim();
+        console.log(query)
+        await getStreamingResponse(query);
+      }
+    }
+  };
 
   const handleKeyDown = (event) => {
     if (event.ctrlKey && event.key === 'z') {
@@ -65,6 +103,11 @@ export const ResizableTextarea = React.forwardRef(({ className, fontSize, onChan
     if (onChange) onChange(value);
   };
 
+  const handleKeyDownEvent = (event) => {
+    handleKeyDown(event);
+    handleCommand(event);
+  };
+
   return (
     <textarea
       className={`resize-none h-full bg-background outline-none scrollbar scrollbar-thumb-blue scrollbar-thin ${className}`}
@@ -72,7 +115,7 @@ export const ResizableTextarea = React.forwardRef(({ className, fontSize, onChan
       ref={ref}
       value={text} // Controlled component
       onChange={(e) => handleChange(e.target.value)}
-      onKeyDown={handleKeyDown}
+      onKeyDown={handleKeyDownEvent}
       {...props}
     />
   );

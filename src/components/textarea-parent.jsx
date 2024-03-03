@@ -1,5 +1,5 @@
 import React from 'react';
-import { FontSizeController, ResizableTextarea } from './ui/textarea'; // replace with actual file name
+import { FontSizeController, ResizableTextarea } from './textarea'; // replace with actual file name
 import { Separator } from './ui/separator'; // replace with actual file name
 
 const TextAreaParent = () => {
